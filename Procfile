@@ -1,0 +1,1 @@
+web: gunicorn clinic1.wsgi --log-file -

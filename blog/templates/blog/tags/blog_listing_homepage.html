@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+<div class="event event-speakers">
+    <!-- <p class="bg-text">
+        News
+    </p> -->
+    <div class="container">
+        <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="event-title d-inline-block">News</h1>
+        </div>
+        </div>
+        <div class="row">
+            {% for post in posts %}
+                {% include "blog/includes/blog_list_item.html" with post=post %}
+            {% endfor %}
+        </div>
+    </div>
+</div>    

@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% with post=post.specific %}
+    <div class="col-md-4">
+        <div class="speaker" data-scroll>
+            <a href="{% pageurl post %}">
+                {% image post.feed_image fill-398x266 as background %}
+                <img src="{{ background.url }}" class="img-fluid">
+                {% if post.related_author.all %}
+                    {% for author in post.related_author.all %}
+                        <div class="speaker-name">{{ author.author }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="speaker-role">{{ post.title }}</div>
+                <div class="speaker-company">{{ post.body|truncatewords_html:10 }}</div>
+            </a>
+        </div>
+    </div>
+    {% if post.search_description %}
+        <p>{{ post.search_description }}</p>
+    {% endif %}
+{% endwith %}

@@ -1,0 +1,26 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+<div class="index-video-intro">
+    <p class="bg-text">
+        Services
+    </p>
+{% if posts %}
+    <div class="container">
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4">
+                    {% if post.feed_image %}
+                    {% image post.feed_image fill-398x266 as background %}
+                        <a href="{% pageurl post %}" class="img-bg" style="background-image: url('{{ background.url }}');">
+                    {% endif %}
+                        <p>
+                            {{ post.title }}
+                            <span>
+                            </span>
+                        </p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+</div>

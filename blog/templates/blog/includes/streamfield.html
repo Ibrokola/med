@@ -1,0 +1,56 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="stream-field">
+    {% for block in self.body %}
+        {% if block.block_type == 'h1' %}
+            <h1>{{ block }}</h1>
+        {% elif block.block_type == 'h2' %}
+            <h2>{{ block }}</h2>
+        {% elif block.block_type == 'h3' %}
+            <h3>{{ block }}</h3>
+        {% elif block.block_type == 'h4' %}
+            <h4>{{ block }}</h4>
+        {% elif block.block_type == 'h5' %}
+            <h4>{{ block }}</h4>
+        {% elif block.block_type == 'h6' %}
+            <h4>{{ block }}</h4>
+        {% elif block.block_type == 'intro' %}
+            <div class="intro">{{ block|richtext }}</div>
+        {% elif block.block_type == 'aligned_html' %}
+            {% if block.value.alignment == 'normal' %}
+                {{ block.value.bound_blocks.html.render }}
+            {% else %}
+                {{ block.value.bound_blocks.html.render }}
+            {% endif %}
+        {% elif block.block_type == 'pullquote' %}
+            <blockquote>
+                {{ block.value.quote }}
+                {% if block.value.attribution %}<span>- {{ block.value.attribution }}</span>{% endif %}
+            </blockquote>
+        {% elif block.block_type == 'paragraph' %}
+            {{ block.value|richtext }}
+        {% elif block.block_type == 'aligned_image' %}
+            <div class="img-wrapper {{ block.value.alignment }}">
+                {% if block.value.alignment == "left" or block.value.alignment == "right" %}
+                    {% image block.value.image width-300 as theimage %}
+                {% else %}
+                    {% image block.value.image width-1280 as theimage %}
+                {% endif %}
+
+                <img src="{{ theimage.url }}" width="{{ theimage.width }}" height="{{ theimage.height }}" alt="{{ theimage.alt }}" class="img-fluid img-responsive" />
+
+                {% if block.value.caption %}
+                    <div class="caption">
+                        {{ block.value.caption }}
+                    </div>
+                {% endif %}
+            </div>
+        {% elif block.block_type == 'raw_html' %}
+            {{ block.value|safe }}
+        {% elif block.block_type == 'embed' %}
+            <div>{{ block.value }}</div>
+        {% else %}
+            {{ block }}
+        {% endif %}
+    {% endfor %}
+</div>

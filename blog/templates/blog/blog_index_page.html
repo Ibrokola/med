@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags static i18n %}
+
+
+{% block content %}
+<div class="pricing-charts-header">
+    <section class="container">
+        <h3 class="customFadeInUp">
+            News
+        </h3>
+        <p class="customFadeInUp">
+        <!-- Whether you're a business or an individual, 14-day trial no credit card required. -->
+        </p>
+    </section>
+</div>
+<div class="blog-cols-header">
+    <div class="container">
+        <h1>
+            Get the latest thoughts & news
+        </h1>
+        <p>
+            {{ self.intro|richtext }}
+        </p>
+    </div>
+</div>
+<div class="event-speakers">
+    <div class="container">
+        <div class="row">
+        {% for post in blogpages %}
+                {% include 'blog/includes/blog_list_item.html' %}
+            {% empty %}
+                No News found
+                {% if forloop.counter|divisibleby:3 %}
+                    </div><div class="row">
+                {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <nav class="blog-pager">
+        <ul class="pagination justify-content-center">
+            {% if blogpages.paginator.num_pages == 1 %}
+            <li class="page-item">{% trans "Page 1 of 1" %}</li>
+            {% else %}    
+                {% if blogpages.number > 1 %}
+                <li>
+                    <a class="page-link" href="?page={{ blogpages.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_number in blogpages.paginator.page_range %}
+                    {% if blogpages.number == page_number %}
+                        <li class="active warning page-link"><a href="">{{ page_number }}<span class="sr-only">(current)</span></a></li>
+                    {% else %}
+                        <li><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if blogpages.number < blogpages.paginator.num_pages %}
+                <li>
+                    <a class="page-link" href="?page={{ blogpages.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

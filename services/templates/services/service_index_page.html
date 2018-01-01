@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags static i18n %}
+
+
+{% block content %}
+<div class="pricing-charts-header">
+    <section class="container">
+        <h3 class="customFadeInUp">
+        {{self.heading}}
+        </h3>
+        <p class="customFadeInUp">
+        <!-- Whether you're a business or an individual, 14-day trial no credit card required. -->
+        </p>
+    </section>
+</div>
+<div class="agency-intro">
+    <div class="container">
+        <h3>
+        {{ self.sub_heading }}
+        </h3>
+        <hr>
+        <p>
+        {{ self.body|richtext }}
+        </p>
+    </div>
+</div>
+<div class="index-video-intro">
+    <div class="container">
+        <div class="row">
+        {% for post in services %}
+            {% with post=post.specific %}
+            <div class="col-md-4">
+                {% if post.feed_image %}
+                {% image post.feed_image fill-398x266 as background %}
+                    <a href="{% pageurl post %}" class="img-bg" style="background-image: url('{{ background.url }}');">
+                {% endif %}
+                    <p>
+                        {{ post.title }}
+                        <span>
+                        </span>
+                    </p>
+                </a>
+            </div>
+            {% endwith %}
+            {% if forloop.counter|divisibleby:3 %}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="col-sm-12 text-center">  
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+            {% if services.paginator.num_pages == 1 %}
+            <li>{% trans "Page 1 of 1" %}</li>
+            {% else %}    
+                {% if services.number > 1 %}
+                <li>
+                    <a href="?page={{ services.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_number in services.paginator.page_range %}
+                    {% if services.number == page_number %}
+                        <li class="active warning"><a href="">{{ page_number }}<span class="sr-only">(current)</span></a></li>
+                    {% else %}
+                        <li><a href="?page={{ page_number }}">{{ page_number }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if services.number < services.paginator.num_pages %}
+                <li>
+                    <a href="?page={{ services.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&amp;{{ key }}={{ value }}{% endifnotequal %}{% endfor %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

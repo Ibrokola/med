@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static home_pagetags clinic_blogtags service_pagetags %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+<style>
+.agency-contact-hero {
+    min-height: 290px;
+    position: relative;
+    /* background-image: url("../images/graphics/hero-02.jpg"); */
+    background-image: url("{% static 'images/med.jpeg' %}");
+    background-size: cover;
+    background-position: center -40px;
+}
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="agency-contact-hero">
+    <div class="container">
+        <h2 class="customFadeInDown h2-responsive">
+            {{self.heading}}
+        </h2>
+        <h1 class="customFadeInUp h1-responsive">
+            {{self.sub_heading}}
+        </h1>
+    </div>
+</div>
+<div class="index-mobile-features">
+    <div class="container">
+        <header>
+        {% for item in self.home_landing.all %}
+        <h3 class="customFadeInDown h3-responsive">
+            {{ item.landing_title }}
+        </h3>
+        <p class="customFadeInUp">
+            {{ item.landing_intro|richtext }}
+        </p>
+        {% endfor %}
+        </header>
+        <div class="features clearfix">
+        {% for item in self.home_market.all %}
+        <div class="feature">
+            <div class="pic">
+            {% image item.market_image fill-398x398 as background %}
+            <img src="{{ background.url }}" class="icon-camera img-fluid img-responsive" />
+            </div>
+            <h4 class="h4-responsive">
+                {{ item.market_title }}
+            </h4>
+            <p>
+            {{ item.market_desc }}
+            </p>
+        </div>
+        {% endfor %}
+        <!-- <div class="feature">
+            <div class="pic">
+            <img src="images/icons/outline-user.png" class="icon-user" />
+            </div>
+            <p>
+            Meet new awesome friends
+            </p>
+        </div>
+        <div class="feature">
+            <div class="pic">
+            <img src="images/icons/outline-cloud.png" class="icon-cloud" />
+            </div>
+            <p>
+            Keep all your files in sync
+            </p>
+        </div>
+        <div class="feature">
+            <div class="pic">
+            <img src="images/icons/outline-mail.png" class="icon-mail" />
+            </div>
+            <p>
+            Contact all your contacts directly
+            </p>
+        </div> -->
+        </div>
+    </div>
+</div>
+
+{% service_listing_homepage %}
+
+<div class="event">
+    {% blog_listing_homepage %}     
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags wagtailimages_tags static %}
+{% block body_class %}template-blogpage{% endblock %}
+
+
+{% block content %}
+
+<div class="blog-post-alt-hero">
+</div>
+
+<div class="blog-post-alt">
+    <div class="container">
+        <h3 class="blog-post-title">
+            {{ self.title }}
+            <img src="{% static 'images/icons/waves.png' %}">
+        </h3>
+    {% with self.related_author.all as authors %}
+        {% if authors %}
+            {% for author in authors %}
+                <div class="blog-post-header">
+                    <div class="blog-post-author">
+                {% if author.author.feed_image %}
+                    {% image author.author.feed_image fill-300x300 as photo %}
+                    <img src="{{ photo.url }}">
+                    {% else %}
+                    <img src="https://www.sbsc.in/images/dummy-profile-pic.png">
+                {% endif %}
+                    By <span>{{ author.author }}</span>
+                    </div>
+                    <div class="blog-post-date">
+                        Date <span>{{ self.date}}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+        <div class="blog-post-content">
+            {% if self.body %}
+                {% include  "blog/includes/streamfield.html" with content=self.body %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

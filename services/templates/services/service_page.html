@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+{% block content %}
+<div class="blog-post">
+    <div class="container">
+        <p><a href="{{ page.get_parent.url }}"><button class="btn btn-fill btn-warning">back to {{page.get_parent.title}}</button></a></p>
+            <h3 class="blog-post-title">
+                {{ self.service_title }}
+            </h3>
+            <div class="blog-post-header">
+                <!-- <div class="blog-post-author">
+                <img src="images/uifaces/9.jpg">
+                By <span>Anne Williams</span>
+                </div> -->
+                <!-- <div class="blog-post-date">
+                Date <span>14 August 2018</span>
+                </div> -->
+            </div>    
+        <div class="blog-post-content">
+            {% if self.body %}
+                {% include  "services/includes/streamfield.html" with content=self.body %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
