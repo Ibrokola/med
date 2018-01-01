@@ -10,7 +10,7 @@ DEBUG = False
 
 SECRET_KEY = config('SECRET_KEY')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['clinic1yeg.herokuapp.com',]
 
 INSTALLED_APPS = [
 
