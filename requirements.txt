@@ -30,6 +30,6 @@ six==1.11.0
 static3==0.7.0
 Unidecode==0.4.21
 urllib3==1.22
-wagtail==2.7.2
+wagtail==2.7.4
 webencodings==0.5.1
 Willow==1.0
